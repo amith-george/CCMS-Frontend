@@ -1,0 +1,116 @@
+<div class="details-container" *ngIf="!loading && caseData; else loadingTpl">
+  <div class="header-section">
+    <button mat-icon-button routerLink="/court/dashboard" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Case Details: {{ caseData.caseNumber }}</h1>
+    <mat-chip [color]="getStatusColor(caseData.status)" highlighted>{{ getStatusLabel(caseData.status) }}</mat-chip>
+  </div>
+
+  <div class="content-grid">
+    <!-- Left Column: Information -->
+    <div class="info-column">
+      
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-card-title>Defendant Information</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="info-row">
+            <span class="label">Name:</span>
+            <span class="value">{{ caseData.defendantName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Aadhaar:</span>
+            <span class="value">{{ caseData.aadhaarNumber }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">PAN:</span>
+            <span class="value">{{ caseData.panNumber }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-card-title>Banking & Order Details</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="info-row">
+            <span class="label">Target Bank:</span>
+            <span class="value">{{ caseData.targetBank }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Account Number:</span>
+            <span class="value">{{ caseData.accountNumber }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Order Type:</span>
+            <span class="value">{{ getOrderTypeLabel(caseData.orderType) }}</span>
+          </div>
+          <div class="info-row" *ngIf="caseData.requestedFreezeAmount">
+            <span class="label">Requested Amount:</span>
+            <span class="value">{{ caseData.requestedFreezeAmount | currency:'INR' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card" *ngIf="caseData.bankRemarks || caseData.systemRemarks">
+        <mat-card-header>
+          <mat-card-title>Resolution & Remarks</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="info-row" *ngIf="caseData.resolvedAt">
+            <span class="label">Resolved At:</span>
+            <span class="value">{{ caseData.resolvedAt | date:'medium' }}</span>
+          </div>
+          <div class="remark-box" *ngIf="caseData.bankRemarks">
+            <span class="label">Bank Response:</span>
+            <p>{{ caseData.bankRemarks }}</p>
+          </div>
+          <div class="remark-box system" *ngIf="caseData.systemRemarks">
+            <span class="label">System Remarks:</span>
+            <p>{{ caseData.systemRemarks }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Right Column: Documents -->
+    <div class="docs-column">
+      <mat-card class="docs-card">
+        <mat-card-header>
+          <mat-card-title>Supporting Documents</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="doc-item" *ngFor="let doc of caseData.documents">
+            <div class="doc-info">
+              <mat-icon color="primary">insert_drive_file</mat-icon>
+              <div class="doc-text">
+                <span class="doc-type">{{ doc.documentType }}</span>
+                <span class="doc-name">{{ doc.fileName }}</span>
+              </div>
+            </div>
+            <button mat-icon-button color="accent" (click)="downloadDocument(doc.id)" title="Download Document">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+          
+          <div *ngIf="!caseData.documents || caseData.documents.length === 0" class="no-docs">
+            No documents attached.
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading-state">
+    <p>Loading case details...</p>
+  </div>
+</ng-template>

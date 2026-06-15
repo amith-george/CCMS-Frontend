@@ -1,0 +1,58 @@
+<div class="dashboard-container">
+  <div class="header-section">
+    <h1>Court Officer Dashboard</h1>
+    <button mat-raised-button color="primary" routerLink="/court/new-case">
+      <mat-icon>add</mat-icon> New Case
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-table [dataSource]="dataSource">
+      
+      <!-- Case Number Column -->
+      <ng-container matColumnDef="caseNumber">
+        <mat-header-cell *matHeaderCellDef> Case Number </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.caseNumber}} </mat-cell>
+      </ng-container>
+
+      <!-- Defendant Name Column -->
+      <ng-container matColumnDef="defendantName">
+        <mat-header-cell *matHeaderCellDef> Defendant Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.defendantName}} </mat-cell>
+      </ng-container>
+
+      <!-- Target Bank Column -->
+      <ng-container matColumnDef="targetBank">
+        <mat-header-cell *matHeaderCellDef> Target Bank </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.targetBank}} </mat-cell>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.createdAt | date:'shortDate'}} </mat-cell>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element"> 
+          <mat-chip [color]="getStatusColor(element.status)" highlighted>{{getStatusLabel(element.status)}}</mat-chip>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" title="View Details" [routerLink]="['/court/case', element.id]">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card>
+</div>

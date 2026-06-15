@@ -1,8 +1,16 @@
-<div class="app-container">
+<div class="app-wrapper">
   @if (!isLoginRoute) {
-    <app-sidebar></app-sidebar>
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened class="sidenav">
+        <app-sidebar></app-sidebar>
+      </mat-sidenav>
+      <mat-sidenav-content class="content-area">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  } @else {
+    <main class="login-area">
+      <router-outlet></router-outlet>
+    </main>
   }
-  <main class="content-area">
-    <router-outlet></router-outlet>
-  </main>
 </div>

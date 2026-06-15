@@ -2,6 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface CaseDocumentDto {
+  id: number;
+  fileName: string;
+  contentType: string;
+  documentType: string;
+}
+
 export interface CaseDto {
   id: number;
   caseNumber: string;
@@ -19,6 +26,10 @@ export interface CaseDto {
   systemRemarks?: string;
 }
 
+export interface CaseDetailsDto extends CaseDto {
+  documents: CaseDocumentDto[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,7 +42,16 @@ export class CaseService {
     return this.http.get<CaseDto[]>(this.apiUrl);
   }
 
+  getCaseById(id: number): Observable<CaseDetailsDto> {
+    return this.http.get<CaseDetailsDto>(`${this.apiUrl}/${id}`);
+  }
+
   createCase(formData: FormData): Observable<CaseDto> {
     return this.http.post<CaseDto>(this.apiUrl, formData);
+  }
+
+  downloadDocument(caseId: number, documentId: number): void {
+    const url = `${this.apiUrl}/${caseId}/documents/${documentId}`;
+    window.open(url, '_blank');
   }
 }

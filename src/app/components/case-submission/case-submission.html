@@ -34,7 +34,9 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="half-width">
             <mat-label>Target Bank</mat-label>
-            <input matInput formControlName="targetBank" placeholder="e.g. State Bank of India">
+            <mat-select formControlName="targetBank">
+              <mat-option value="NeST Digital Bank">NeST Digital Bank</mat-option>
+            </mat-select>
             <mat-error *ngIf="caseForm.get('targetBank')?.hasError('required')">Target Bank is required</mat-error>
           </mat-form-field>
 

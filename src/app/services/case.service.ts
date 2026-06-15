@@ -50,8 +50,8 @@ export class CaseService {
     return this.http.post<CaseDto>(this.apiUrl, formData);
   }
 
-  downloadDocument(caseId: number, documentId: number): void {
+  downloadDocument(caseId: number, documentId: number): Observable<Blob> {
     const url = `${this.apiUrl}/${caseId}/documents/${documentId}`;
-    window.open(url, '_blank');
+    return this.http.get(url, { responseType: 'blob' });
   }
 }

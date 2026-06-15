@@ -1,9 +1,22 @@
 <div class="dashboard-container">
   <div class="header-section">
     <h1>Court Officer Dashboard</h1>
-    <button mat-raised-button color="primary" routerLink="/court/new-case">
-      <mat-icon>add</mat-icon> New Case
-    </button>
+    <div class="header-actions" style="display: flex; gap: 16px; align-items: center;">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" style="width: 250px;">
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [(ngModel)]="selectedFilter" (selectionChange)="applyFilter()">
+          <mat-option value="all">All Cases</mat-option>
+          <mat-option value="0">Pending Cases</mat-option>
+          <mat-option value="1">Account Validated</mat-option>
+          <mat-option value="3">Under Review</mat-option>
+          <mat-option value="closed">Closed Cases</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" routerLink="/court/new-case">
+        <mat-icon>add</mat-icon> New Case
+      </button>
+    </div>
   </div>
 
   <mat-card>
@@ -54,5 +67,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+    <mat-paginator [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons></mat-paginator>
   </mat-card>
 </div>

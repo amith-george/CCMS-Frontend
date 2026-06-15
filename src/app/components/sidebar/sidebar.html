@@ -13,4 +13,11 @@
     <mat-icon matListItemIcon>add_circle</mat-icon>
     <div matListItemTitle>New Case</div>
   </a>
+  
+  <div class="spacer" style="flex: 1 1 auto;"></div>
+
+  <a mat-list-item (click)="logout()" class="logout-btn" style="cursor: pointer; color: #f44336; margin-top: auto;">
+    <mat-icon matListItemIcon color="warn">logout</mat-icon>
+    <div matListItemTitle>Logout</div>
+  </a>
 </mat-nav-list>

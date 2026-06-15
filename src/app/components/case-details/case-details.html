@@ -50,7 +50,7 @@
             <span class="label">Order Type:</span>
             <span class="value">{{ getOrderTypeLabel(caseData.orderType) }}</span>
           </div>
-          <div class="info-row" *ngIf="caseData.requestedFreezeAmount">
+          <div class="info-row" *ngIf="caseData.requestedFreezeAmount !== null && caseData.requestedFreezeAmount !== undefined">
             <span class="label">Requested Amount:</span>
             <span class="value">{{ caseData.requestedFreezeAmount | currency:'INR' }}</span>
           </div>
@@ -95,7 +95,7 @@
                 <span class="doc-name">{{ doc.fileName }}</span>
               </div>
             </div>
-            <button mat-icon-button color="accent" (click)="downloadDocument(doc.id)" title="Download Document">
+            <button mat-icon-button color="accent" (click)="downloadDocument(doc.id, doc.fileName)" title="Download Document">
               <mat-icon>download</mat-icon>
             </button>
           </div>
@@ -110,7 +110,12 @@
 </div>
 
 <ng-template #loadingTpl>
-  <div class="loading-state">
+  <div class="loading-state" *ngIf="loading">
     <p>Loading case details...</p>
+  </div>
+  <div class="error-state" *ngIf="!loading && !caseData" style="color: red; padding: 20px;">
+    <h3>Failed to load case details.</h3>
+    <p>There was an error communicating with the backend. {{ errorMessage }}</p>
+    <button mat-raised-button color="primary" routerLink="/court/dashboard">Back to Dashboard</button>
   </div>
 </ng-template>

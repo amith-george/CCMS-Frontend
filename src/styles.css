@@ -1,30 +1,29 @@
 /* 
-   =================================================
-   COURT PORTAL THEME: "The Tech Professional"
-   =================================================
-   A clean, highly readable, developer-friendly 
-   aesthetic built for extended screen time.
+   COURT PORTAL THEME:
 */
 :root {
   /* Graphite - Deep, rich gray */
-  --primary-color: #2D3142; 
+  --primary-color: #2D3142;
   /* Aubergine - Muted dark purple */
-  --accent-color: #4F5D75; 
+  --accent-color: #4F5D75;
   /* Burnt Orange - For high-priority buttons */
-  --warn-color: #EF8354; 
-  
+  --warn-color: #EF8354;
+
   /* Backgrounds */
-  --bg-light: #FFFFFF; /* Stark White */
-  --bg-dark: #1E1E24;  /* Deep Charcoal */
+  --bg-light: #FFFFFF;
+  /* Stark White */
+  --bg-dark: #1E1E24;
+  /* Deep Charcoal */
   --text-main: #333333;
-  
+
   /* Material Overrides */
   --mdc-theme-primary: var(--primary-color);
   --mdc-theme-secondary: var(--accent-color);
 }
 
-html, body { 
-    height: 100%; 
+html,
+body {
+  height: 100%;
 }
 
 body {

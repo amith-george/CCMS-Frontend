@@ -4,14 +4,14 @@
   align-items: center;
   height: 100vh;
   /* Beautiful, modern gradient background using the Tech Professional theme colors */
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  background: linear-gradient(135deg, #2D3142 0%, #4F5D75 100%);
 }
 
 .login-card {
   width: 100%;
   max-width: 420px;
   padding: 3rem 2rem;
-  background-color: var(--bg-light);
+  background-color: #FFFFFF;
   border-radius: 12px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
@@ -27,13 +27,13 @@ mat-card-header {
 mat-card-title {
   font-size: 28px;
   font-weight: 600;
-  color: var(--primary-color);
+  color: #2D3142;
   margin-bottom: 8px;
   letter-spacing: 0.5px;
 }
 
 mat-card-subtitle {
-  color: var(--accent-color);
+  color: #4F5D75;
   font-size: 15px;
 }
 
@@ -51,7 +51,7 @@ mat-card-subtitle {
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;
-  background-color: var(--warn-color);
+  background-color: #EF8354;
   color: white;
   border-radius: 6px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;

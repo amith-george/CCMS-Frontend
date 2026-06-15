@@ -11,17 +11,18 @@
 h1 {
   margin: 0;
   font-size: 24px;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: var(--primary-color);
+  letter-spacing: -0.5px;
 }
 
 h3 {
   margin-top: 24px;
   margin-bottom: 16px;
   font-size: 18px;
-  font-weight: 500;
-  color: #555;
-  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 8px;
 }
 
@@ -51,9 +52,9 @@ h3 {
   align-items: center;
   gap: 16px;
   padding: 12px;
-  border: 1px dashed #ccc;
+  border: 1px dashed var(--accent-color);
   border-radius: 4px;
-  background-color: #fafafa;
+  background-color: var(--bg-main);
 }
 
 .upload-box label {
@@ -62,8 +63,8 @@ h3 {
 }
 
 .file-name {
-  color: #2e7d32;
-  font-weight: 500;
+  color: var(--accent-color);
+  font-weight: 600;
 }
 
 .form-actions {
@@ -74,5 +75,5 @@ h3 {
 }
 
 .cancel-btn {
-  color: #666;
+  color: var(--text-muted);
 }

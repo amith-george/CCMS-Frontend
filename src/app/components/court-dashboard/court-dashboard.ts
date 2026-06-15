@@ -26,6 +26,11 @@ export class CourtDashboard implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<CaseDto>([]);
   selectedFilter: string = 'all';
 
+  // Statistics
+  totalCases: number = 0;
+  pendingCases: number = 0;
+  closedCases: number = 0;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   applyFilter() {
@@ -49,11 +54,18 @@ export class CourtDashboard implements OnInit, AfterViewInit {
     this.caseService.getCases().subscribe({
       next: (cases) => {
         this.dataSource.data = cases;
+        this.calculateStats(cases);
       },
       error: (err) => {
         console.error('Error fetching cases', err);
       }
     });
+  }
+
+  calculateStats(cases: CaseDto[]) {
+    this.totalCases = cases.length;
+    this.pendingCases = cases.filter(c => c.status === 0).length; // 0 = Pending
+    this.closedCases = cases.filter(c => c.status === 2 || c.status === 4 || c.status === 5).length;
   }
 
   getStatusLabel(status: number): string {

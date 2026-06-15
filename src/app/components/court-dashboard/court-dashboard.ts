@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -6,19 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { RouterLink } from '@angular/router';
-
-export interface CaseMock {
-  caseNumber: string;
-  defendantName: string;
-  targetBank: string;
-  status: number;
-  createdAt: string;
-}
-
-const MOCK_CASES: CaseMock[] = [
-  { caseNumber: 'CCMS-20260614-0001', defendantName: 'John Doe', targetBank: 'State Bank of India', status: 0, createdAt: new Date().toISOString() },
-  { caseNumber: 'CCMS-20260614-0002', defendantName: 'Jane Smith', targetBank: 'HDFC Bank', status: 1, createdAt: new Date().toISOString() },
-];
+import { CaseService, CaseDto } from '../../services/case.service';
 
 @Component({
   selector: 'app-court-dashboard',
@@ -27,9 +15,22 @@ const MOCK_CASES: CaseMock[] = [
   templateUrl: './court-dashboard.html',
   styleUrl: './court-dashboard.css'
 })
-export class CourtDashboard {
+export class CourtDashboard implements OnInit {
+  private caseService = inject(CaseService);
+
   displayedColumns: string[] = ['caseNumber', 'defendantName', 'targetBank', 'createdAt', 'status', 'actions'];
-  dataSource = MOCK_CASES;
+  dataSource: CaseDto[] = [];
+
+  ngOnInit(): void {
+    this.caseService.getCases().subscribe({
+      next: (cases) => {
+        this.dataSource = cases;
+      },
+      error: (err) => {
+        console.error('Error fetching cases', err);
+      }
+    });
+  }
 
   getStatusLabel(status: number): string {
     switch (status) {

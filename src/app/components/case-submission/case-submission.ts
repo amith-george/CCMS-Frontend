@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
+import { CaseService } from '../../services/case.service';
 
 @Component({
   selector: 'app-case-submission',
@@ -32,6 +33,7 @@ export class CaseSubmission {
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
+  private caseService = inject(CaseService);
 
   caseForm: FormGroup = this.fb.group({
     defendantName: ['', Validators.required],
@@ -83,15 +85,27 @@ export class CaseSubmission {
       return;
     }
 
-    console.log('Form Data:', this.caseForm.value);
-    console.log('Files:', this.files);
+    const formData = new FormData();
+    // Append form fields
+    Object.keys(this.caseForm.value).forEach(key => {
+      formData.append(key, this.caseForm.value[key]);
+    });
 
-    this.snackBar.open('Form valid! API integration will happen in the next branch.', 'Close', { duration: 3000 });
-    
-    // Simulate API delay
-    setTimeout(() => {
-      this.router.navigate(['/court/dashboard']);
-    }, 1500);
+    // Append files
+    formData.append('courtOrder', this.files['courtOrder']);
+    formData.append('aadhaarDoc', this.files['aadhaarDoc']);
+    formData.append('panDoc', this.files['panDoc']);
+
+    this.caseService.createCase(formData).subscribe({
+      next: (response) => {
+        this.snackBar.open(`Case ${response.caseNumber} successfully created!`, 'Close', { duration: 3000 });
+        this.router.navigate(['/court/dashboard']);
+      },
+      error: (err) => {
+        console.error('Error creating case', err);
+        this.snackBar.open('Failed to create case. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   get orderType() {

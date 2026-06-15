@@ -36,7 +36,7 @@ export interface CaseDetailsDto extends CaseDto {
 export class CaseService {
   private http = inject(HttpClient);
   // Pointing to local backend URL for development
-  private apiUrl = 'http://localhost:5000/api/cases';
+  private apiUrl = 'http://localhost:5042/api/cases';
 
   getCases(): Observable<CaseDto[]> {
     return this.http.get<CaseDto[]>(this.apiUrl);

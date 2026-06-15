@@ -58,9 +58,9 @@ export class LoginComponent {
         
         // Route based on role: 0 = CourtOfficer, 1 = BankOfficer
         if (response.role === 0) {
-          this.router.navigate(['/court']);
+          this.router.navigate(['/court/dashboard']);
         } else if (response.role === 1) {
-          this.router.navigate(['/bank']);
+          this.router.navigate(['/bank/dashboard']);
         } else {
           this.router.navigate(['/']);
         }

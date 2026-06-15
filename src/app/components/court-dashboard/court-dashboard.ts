@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,12 +19,12 @@ export class CourtDashboard implements OnInit {
   private caseService = inject(CaseService);
 
   displayedColumns: string[] = ['caseNumber', 'defendantName', 'targetBank', 'createdAt', 'status', 'actions'];
-  dataSource: CaseDto[] = [];
+  dataSource = new MatTableDataSource<CaseDto>([]);
 
   ngOnInit(): void {
     this.caseService.getCases().subscribe({
       next: (cases) => {
-        this.dataSource = cases;
+        this.dataSource.data = cases;
       },
       error: (err) => {
         console.error('Error fetching cases', err);

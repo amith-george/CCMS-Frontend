@@ -3,6 +3,7 @@ import { LoginComponent } from './pages/login/login';
 import { CourtDashboard } from './components/court-dashboard/court-dashboard';
 import { CaseSubmission } from './components/case-submission/case-submission';
 import { CaseDetails } from './components/case-details/case-details';
+import { BankLayout } from './components/bank-layout/bank-layout';
 import { BankDashboard } from './pages/bank-dashboard/bank-dashboard';
 import { BankInbox } from './pages/bank-inbox/bank-inbox';
 import { BankCaseDetail } from './pages/bank-case-detail/bank-case-detail';
@@ -19,8 +20,15 @@ export const routes: Routes = [
   { path: 'court/case/:id', component: CaseDetails, canActivate: [authGuard] },
 
   // Protected Bank Routes
-  { path: 'bank/dashboard', component: BankDashboard, canActivate: [authGuard] },
-  { path: 'bank/inbox', component: BankInbox, canActivate: [authGuard] },
-  { path: 'bank/case/:id', component: BankCaseDetail, canActivate: [authGuard] },
-  { path: 'bank', redirectTo: 'bank/dashboard', pathMatch: 'full' }
+  {
+    path: 'bank',
+    component: BankLayout,
+    canActivate: [authGuard],
+    children: [
+      { path: 'dashboard', component: BankDashboard },
+      { path: 'inbox', component: BankInbox },
+      { path: 'case/:id', component: BankCaseDetail },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
+  }
 ];

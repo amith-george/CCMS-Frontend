@@ -18,6 +18,8 @@ export class Sidebar {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  isCollapsed = false;
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

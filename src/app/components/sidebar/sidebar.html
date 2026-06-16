@@ -3,6 +3,16 @@
   <h2>CCMS Portal</h2>
 </div>
 
+<div class="user-profile" *ngIf="!isCollapsed">
+  <div class="avatar">
+    <mat-icon>person</mat-icon>
+  </div>
+  <div class="user-info">
+    <span class="user-name">Court Officer</span>
+    <span class="user-role">High Court</span>
+  </div>
+</div>
+
 <mat-nav-list>
   <a mat-list-item routerLink="/court/dashboard" routerLinkActive="active-link">
     <mat-icon matListItemIcon>dashboard</mat-icon>

@@ -4,12 +4,17 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectModule, MAT_SELECT_SCROLL_STRATEGY } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
 import { CaseService } from '../../services/case.service';
+import { Overlay } from '@angular/cdk/overlay';
+
+export function scrollFactory(overlay: Overlay) {
+  return () => overlay.scrollStrategies.reposition();
+}
 
 @Component({
   selector: 'app-case-submission',
@@ -25,6 +30,9 @@ import { CaseService } from '../../services/case.service';
     MatIconModule,
     MatSnackBarModule,
     RouterLink
+  ],
+  providers: [
+    { provide: MAT_SELECT_SCROLL_STRATEGY, useFactory: scrollFactory, deps: [Overlay] }
   ],
   templateUrl: './case-submission.html',
   styleUrl: './case-submission.css'

@@ -44,12 +44,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .stats-container {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 24px;
+  width: 100%;
 }
 
 .stat-card {

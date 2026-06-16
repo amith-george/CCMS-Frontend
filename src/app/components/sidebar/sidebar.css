@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   background-color: var(--primary-color);
   color: white;
@@ -23,10 +24,53 @@
   letter-spacing: 0.5px;
 }
 
+.user-profile {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-profile .avatar {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-profile .avatar mat-icon {
+  color: white;
+}
+
+.user-profile .user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-profile .user-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.user-profile .user-role {
+  font-size: 12px;
+  color: #cccccc;
+}
+
 mat-nav-list a[mat-list-item],
 mat-nav-list a[mat-list-item] [matListItemTitle] {
   color: white !important;
   transition: all 0.2s ease;
+}
+
+mat-nav-list a[mat-list-item] {
+  border-radius: 4px !important;
+  margin: 4px 8px !important;
+  width: calc(100% - 16px) !important;
 }
 
 mat-nav-list a[mat-list-item] mat-icon {
@@ -47,7 +91,7 @@ mat-nav-list a[mat-list-item]:hover mat-icon {
   background-color: rgba(0, 102, 255, 0.2) !important;
   color: white !important;
   font-weight: 600;
-  border-right: 3px solid var(--accent-color);
+  border-left: 4px solid var(--accent-color);
 }
 
 .active-link mat-icon {
@@ -57,7 +101,7 @@ mat-nav-list a[mat-list-item]:hover mat-icon {
 mat-nav-list {
   display: flex !important;
   flex-direction: column;
-  height: calc(100% - 72px); /* Subtract header height */
+  flex: 1;
   padding-top: 8px !important;
   box-sizing: border-box;
   overflow: hidden;

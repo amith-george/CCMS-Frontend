@@ -33,28 +33,16 @@ export class CourtDashboard implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  applyFilter() {
-    this.dataSource.filter = this.selectedFilter;
-  }
+  totalCasesForPagination: number = 0;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  ngOnInit(): void {
-    this.dataSource.filterPredicate = (data: CaseDto, filter: string) => {
-      if (filter === 'all') return true;
-      if (filter === 'closed') {
-        // Closed means AccountNotFound (2), FreezeApplied (4), BalanceProvided (5)
-        return data.status === 2 || data.status === 4 || data.status === 5;
-      }
-      return data.status.toString() === filter;
-    };
-
-    this.caseService.getCases().subscribe({
-      next: (cases) => {
-        this.dataSource.data = cases;
-        this.calculateStats(cases);
+  loadCases() {
+    const page = this.paginator ? this.paginator.pageIndex + 1 : 1;
+    const limit = this.paginator ? this.paginator.pageSize : 15;
+    
+    this.caseService.getCases(page, limit, this.selectedFilter).subscribe({
+      next: (result) => {
+        this.dataSource.data = result.data;
+        this.totalCasesForPagination = result.totalCount;
       },
       error: (err) => {
         console.error('Error fetching cases', err);
@@ -62,11 +50,35 @@ export class CourtDashboard implements OnInit, AfterViewInit {
     });
   }
 
-  calculateStats(cases: CaseDto[]) {
-    this.totalCases = cases.length;
-    this.pendingCases = cases.filter(c => c.status === 0).length; // 0 = Pending
-    this.closedCases = cases.filter(c => c.status === 2 || c.status === 4 || c.status === 5).length;
+  loadStatistics() {
+    this.caseService.getStatistics().subscribe(stats => {
+      this.totalCases = stats.totalCases;
+      this.pendingCases = stats.pendingBatch;
+      this.closedCases = stats.completed + stats.autoResolved;
+    });
   }
+
+  applyFilter() {
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
+    this.loadCases();
+  }
+
+  onPageChange() {
+    this.loadCases();
+  }
+
+  ngAfterViewInit() {
+    // We handle pagination manually now
+  }
+
+  ngOnInit(): void {
+    this.loadStatistics();
+    this.loadCases();
+  }
+
+
 
   getStatusLabel(status: number): string {
     switch (status) {

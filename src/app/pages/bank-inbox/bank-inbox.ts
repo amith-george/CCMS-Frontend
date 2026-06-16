@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { BankApiService } from '../../services/bank-api.service';
 import { BankCaseDto, CaseStatus, OrderType } from '../../models/bank.models';
 
@@ -24,6 +25,7 @@ import { BankCaseDto, CaseStatus, OrderType } from '../../models/bank.models';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatChipsModule,
+    MatPaginatorModule,
     DatePipe
   ],
   templateUrl: './bank-inbox.html',
@@ -49,31 +51,60 @@ export class BankInbox implements OnInit {
   OrderType = OrderType;
   CaseStatus = CaseStatus;
 
+  stats: any = { awaitingAction: 0, completed: 0, autoResolved: 0, pendingBatch: 0 };
+  activeTabIndex = 0;
+  totalCasesForPagination = 0;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.loadCases();
+    this.loadStats();
+    this.loadCasesForTab();
   }
 
-  loadCases(): void {
+  loadStats() {
+    this.bankApiService.getBankStatistics().subscribe(stats => {
+      this.stats = stats;
+      this.cdr.detectChanges();
+    });
+  }
+
+  onTabChange(event: any) {
+    this.activeTabIndex = event.index;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
+    this.loadCasesForTab();
+  }
+
+  onPageChange() {
+    this.loadCasesForTab();
+  }
+
+  loadCasesForTab(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    this.bankApiService.getBankCases().subscribe({
+    
+    const page = this.paginator ? this.paginator.pageIndex + 1 : 1;
+    const limit = this.paginator ? this.paginator.pageSize : 15;
+    
+    let filter = 'awaitingAction';
+    if (this.activeTabIndex === 1) filter = 'completed';
+    else if (this.activeTabIndex === 2) filter = 'closed';
+    else if (this.activeTabIndex === 3) filter = 'pending';
+
+    this.bankApiService.getBankCases(page, limit, filter).subscribe({
       next: (response: any) => {
         try {
-            console.log("Bank inbox cases response:", response);
-            let cases: BankCaseDto[] = [];
-            if (Array.isArray(response)) cases = response;
-            else if (response && Array.isArray(response.data)) cases = response.data;
-            else if (response && Array.isArray(response.$values)) cases = response.$values;
+            const cases = response.data || [];
+            this.totalCasesForPagination = response.totalCount || 0;
 
-            this.awaitingActionCases = cases.filter((c: BankCaseDto) => c.status === CaseStatus.AccountValidated);
-            this.pendingBatchCases = cases.filter((c: BankCaseDto) => c.status === CaseStatus.Pending);
-            this.autoResolvedCases = cases.filter((c: BankCaseDto) => c.status === CaseStatus.AccountNotFound);
-            this.completedCases = cases.filter((c: BankCaseDto) => 
-              c.status === CaseStatus.FreezeApplied || 
-              c.status === CaseStatus.BalanceProvided
-            );
+            if (this.activeTabIndex === 0) this.awaitingActionCases = cases;
+            else if (this.activeTabIndex === 1) this.completedCases = cases;
+            else if (this.activeTabIndex === 2) this.autoResolvedCases = cases;
+            else if (this.activeTabIndex === 3) this.pendingBatchCases = cases;
         } catch (e: any) {
             console.error("Error processing cases:", e);
             this.errorMessage = "Error processing data: " + (e.message || e);

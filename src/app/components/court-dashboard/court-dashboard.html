@@ -2,7 +2,7 @@
   <div class="header-section">
     <div class="title-container">
       <h1>
-        <mat-icon class="title-icon">gavel</mat-icon>
+        <mat-icon class="title-icon">balance</mat-icon>
         Court Officer <span class="fw-light">Dashboard</span>
       </h1>
       <p class="subtitle">Monitor active cases, bank communications, and freezing orders.</p>
@@ -33,11 +33,7 @@
       </mat-card>
     </div>
 
-    <div class="action-buttons">
-      <button mat-raised-button color="primary" routerLink="/court/new-case">
-        <mat-icon>add</mat-icon> New Case
-      </button>
-    </div>
+
   </div>
 
   <div class="filter-section">
@@ -102,6 +98,6 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <mat-paginator [pageSize]="3" [pageSizeOptions]="[3, 6, 12]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [length]="totalCasesForPagination" [pageSize]="15" hidePageSize (page)="onPageChange()" showFirstLastButtons></mat-paginator>
   </mat-card>
 </div>

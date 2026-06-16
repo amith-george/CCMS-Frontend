@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { PagedResult, CaseStatisticsDto } from '../models/pagination.models';
 export interface CaseDocumentDto {
   id: number;
   fileName: string;
@@ -43,8 +43,12 @@ export class CaseService {
   // Pointing to local backend URL for development
   private apiUrl = 'http://localhost:5042/api/cases';
 
-  getCases(): Observable<CaseDto[]> {
-    return this.http.get<CaseDto[]>(this.apiUrl);
+  getCases(page: number = 1, limit: number = 15, filter: string = 'all'): Observable<PagedResult<CaseDto>> {
+    return this.http.get<PagedResult<CaseDto>>(`${this.apiUrl}?page=${page}&limit=${limit}&filter=${filter}`);
+  }
+
+  getStatistics(): Observable<CaseStatisticsDto> {
+    return this.http.get<CaseStatisticsDto>(`${this.apiUrl}/statistics`);
   }
 
   getCaseById(id: number): Observable<CaseDetailsDto> {

@@ -44,27 +44,15 @@ export class BankDashboard implements OnInit {
   loadStatistics(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    this.bankApiService.getBankCases().subscribe({
+    this.bankApiService.getBankStatistics().subscribe({
       next: (response: any) => {
         try {
-            console.log('Received dashboard cases response:', response);
-            let cases: BankCaseDto[] = [];
-            if (Array.isArray(response)) {
-                cases = response;
-            } else if (response && Array.isArray(response.data)) {
-                cases = response.data;
-            } else if (response && Array.isArray(response.$values)) {
-                cases = response.$values;
-            }
-
-            this.totalCases = cases.length;
-            this.pendingBatch = cases.filter((c: BankCaseDto) => c.status === CaseStatus.Pending).length;
-            this.awaitingAction = cases.filter((c: BankCaseDto) => c.status === CaseStatus.AccountValidated).length;
-            this.autoResolved = cases.filter((c: BankCaseDto) => c.status === CaseStatus.AccountNotFound).length;
-            this.completed = cases.filter((c: BankCaseDto) => 
-              c.status === CaseStatus.FreezeApplied || 
-              c.status === CaseStatus.BalanceProvided
-            ).length;
+            console.log('Received dashboard stats:', response);
+            this.totalCases = response.totalCases;
+            this.pendingBatch = response.pendingBatch;
+            this.awaitingAction = response.awaitingAction;
+            this.autoResolved = response.autoResolved;
+            this.completed = response.completed;
         } catch (e: any) {
             console.error('Error processing dashboard data:', e);
             this.errorMessage = "Error processing data: " + (e.message || e);

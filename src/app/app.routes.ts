@@ -4,6 +4,7 @@ import { CaseSubmission } from './components/case-submission/case-submission';
 import { CaseDetails } from './components/case-details/case-details';
 import { BankLayout } from './components/bank-layout/bank-layout';
 import { BankDashboard } from './pages/bank-dashboard/bank-dashboard';
+import { BankInbox } from './pages/bank-inbox/bank-inbox';
 
 export const routes: Routes = [
     { path: 'court/dashboard', component: CourtDashboard },
@@ -17,6 +18,7 @@ export const routes: Routes = [
       component: BankLayout,
       children: [
         { path: 'dashboard', component: BankDashboard },
+        { path: 'inbox', component: BankInbox },
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         // Components will be added in subsequent branches
       ]

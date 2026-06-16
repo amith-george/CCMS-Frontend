@@ -10,7 +10,7 @@
         <mat-chip highlighted [color]="caseData.orderType === OrderType.FreezeAccount ? 'warn' : 'accent'">
           {{ getOrderTypeLabel(caseData.orderType) }}
         </mat-chip>
-        <mat-chip highlighted color="primary">{{ getStatusLabel(caseData.status) }}</mat-chip>
+        <mat-chip [ngClass]="getStatusColorClass(caseData.status)">{{ getStatusLabel(caseData.status) }}</mat-chip>
       </mat-chip-set>
     </div>
   </div>
@@ -24,40 +24,52 @@
     <strong>Error:</strong> {{ errorMessage }}
   </div>
 
-  <div class="content-grid" *ngIf="caseData && !isLoading && !errorMessage">
+  <div class="content-grid" *ngIf="caseData && !isLoading && !errorMessage" [class.single-column]="caseData.status === CaseStatus.AccountNotFound">
     
     <!-- Left Column: Case Information -->
     <div class="info-column">
-      
-      <!-- Court Order Details -->
+
+      <!-- Attached Documents (Moved to top for better workflow) -->
+      <mat-card class="detail-card doc-card">
+        <mat-card-header>
+          <mat-card-title>Supporting Documents</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="doc-item">
+            <mat-icon class="pdf-icon">picture_as_pdf</mat-icon>
+            <span class="doc-name">Court_Order.pdf</span>
+            <button mat-flat-button color="primary" (click)="downloadDocument()">Download & Review PDF</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Combined Case Overview -->
       <mat-card class="detail-card">
         <mat-card-header>
           <mat-card-title>Court Order Details</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div class="data-row">
-            <span class="label">Defendant Name</span>
-            <span class="value fw-bold">{{ caseData.defendantName }}</span>
-          </div>
-          <mat-divider></mat-divider>
-          <div class="data-row">
-            <span class="label">Target Bank</span>
-            <span class="value">{{ caseData.targetBank }}</span>
-          </div>
-          <mat-divider></mat-divider>
-          <div class="data-row">
-            <span class="label">Masked Aadhaar</span>
-            <span class="value">{{ maskData(caseData.aadhaarNumber) }}</span>
-          </div>
-          <mat-divider></mat-divider>
-          <div class="data-row">
-            <span class="label">Masked PAN</span>
-            <span class="value">{{ maskData(caseData.panNumber) }}</span>
-          </div>
-          <mat-divider></mat-divider>
-          <div class="data-row">
-            <span class="label">Requested Amount</span>
-            <span class="value">{{ caseData.requestedFreezeAmount ? (caseData.requestedFreezeAmount | currency:'INR') : 'N/A' }}</span>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Defendant Name</span>
+              <span class="info-value">{{ caseData.defendantName }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Target Bank</span>
+              <span class="info-value">{{ caseData.targetBank }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Masked Aadhaar</span>
+              <span class="info-value">{{ maskData(caseData.aadhaarNumber) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Masked PAN</span>
+              <span class="info-value">{{ maskData(caseData.panNumber) }}</span>
+            </div>
+            <div class="info-item" style="grid-column: 1 / -1;">
+              <span class="info-label">Requested Amount</span>
+              <span class="info-value warn-text" style="font-size: 1.2rem;">{{ caseData.requestedFreezeAmount ? (caseData.requestedFreezeAmount | currency:'INR') : 'N/A' }}</span>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
@@ -68,40 +80,25 @@
           <mat-card-title>Batch Validation Result</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div class="data-row">
-            <span class="label">Matched Account</span>
-            <span class="value fw-bold">{{ maskData(caseData.matchedAccountNumber) }}</span>
-          </div>
-          <mat-divider></mat-divider>
-          <div class="data-row" *ngIf="caseData.batchAccountStatus">
-            <span class="label">Account Status</span>
-            <span class="value fw-bold" [class.success-text]="caseData.batchAccountStatus === 'Active' || caseData.batchAccountStatus === 'ACTIVE'" [class.warn-text]="caseData.batchAccountStatus !== 'Active' && caseData.batchAccountStatus !== 'ACTIVE'">
-              {{ caseData.batchAccountStatus }}
-            </span>
-          </div>
-          <mat-divider *ngIf="caseData.batchAccountStatus"></mat-divider>
-          <div class="data-row">
-            <span class="label">Found Balance</span>
-            <span class="value success-text fw-bold">{{ caseData.batchFoundBalance | currency:'INR' }}</span>
-          </div>
-          <mat-divider></mat-divider>
-          <div class="data-row">
-            <span class="label">Processed On</span>
-            <span class="value">{{ caseData.createdAt | date:'medium' }}</span>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Attached Documents -->
-      <mat-card class="detail-card doc-card">
-        <mat-card-header>
-          <mat-card-title>Supporting Documents</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="doc-item">
-            <mat-icon class="pdf-icon">picture_as_pdf</mat-icon>
-            <span class="doc-name">Court_Order.pdf</span>
-            <button mat-stroked-button color="accent" (click)="downloadDocument()">Download</button>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Matched Account</span>
+              <span class="info-value">{{ maskData(caseData.matchedAccountNumber) }}</span>
+            </div>
+            <div class="info-item" *ngIf="caseData.batchAccountStatus">
+              <span class="info-label">Account Status</span>
+              <span class="info-value" [class.success-text]="caseData.batchAccountStatus === 'Active' || caseData.batchAccountStatus === 'ACTIVE'" [class.warn-text]="caseData.batchAccountStatus !== 'Active' && caseData.batchAccountStatus !== 'ACTIVE'">
+                {{ caseData.batchAccountStatus }}
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Found Balance</span>
+              <span class="info-value success-text">{{ caseData.batchFoundBalance | currency:'INR' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Processed On</span>
+              <span class="info-value" style="font-size: 0.95rem; color: #555;">{{ caseData.createdAt | date:'medium' }}</span>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
@@ -114,7 +111,7 @@
       <!-- Only show form if status is AccountValidated -->
       <mat-card class="action-card" *ngIf="caseData.status === CaseStatus.AccountValidated">
         <mat-card-header class="action-header">
-          <mat-icon>gavel</mat-icon>
+          <mat-icon>send</mat-icon>
           <mat-card-title>Submit Official Response</mat-card-title>
           <mat-card-subtitle>
             Please review the downloaded Court Order PDF before taking action.
@@ -167,20 +164,22 @@
       <!-- Completed State View -->
       <mat-card class="action-card completed" *ngIf="caseData.status === CaseStatus.FreezeApplied || caseData.status === CaseStatus.BalanceProvided">
         <mat-card-header style="display: flex; align-items: center; margin-bottom: 10px;">
-          <mat-icon class="success-text" style="margin-right: 15px; transform: scale(1.2);">check_circle</mat-icon>
-          <mat-card-title style="margin-bottom: 0;">Response Already Submitted</mat-card-title>
+          <mat-card-title style="display: flex; align-items: center; gap: 8px; margin-bottom: 0;">
+            Response Already Submitted
+            <mat-icon class="success-text" style="transform: scale(1.1);">check_circle</mat-icon>
+          </mat-card-title>
         </mat-card-header>
         <mat-card-content style="padding-top: 10px;">
           <p class="help-text" style="margin-top: 0;">This case has been resolved and the response was sent to the Court.</p>
-          <div class="data-row">
+          <div class="completion-row">
             <span class="label">Action Taken</span>
             <span class="value fw-bold">{{ getStatusLabel(caseData.status) }}</span>
           </div>
-          <div class="data-row" *ngIf="caseData.finalFreezeAmount">
+          <div class="completion-row" *ngIf="caseData.finalFreezeAmount">
             <span class="label">Amount Frozen</span>
             <span class="value warn-text fw-bold">{{ caseData.finalFreezeAmount | currency:'INR' }}</span>
           </div>
-          <div class="data-row" *ngIf="caseData.finalReportedBalance">
+          <div class="completion-row" *ngIf="caseData.finalReportedBalance">
             <span class="label">Reported Balance</span>
             <span class="value success-text fw-bold">{{ caseData.finalReportedBalance | currency:'INR' }}</span>
           </div>

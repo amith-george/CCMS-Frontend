@@ -103,4 +103,12 @@ export class BankInbox implements OnInit {
       default: return 'Completed';
     }
   }
+
+  getStatusColorClass(status: CaseStatus | string): string {
+    if (status === CaseStatus.AccountNotFound || status === 'AccountNotFound') return 'status-red';
+    if (status === CaseStatus.FreezeApplied) return 'status-green';
+    if (status === CaseStatus.BalanceProvided) return 'status-orange';
+    if (status === CaseStatus.AccountValidated) return 'status-blue';
+    return 'status-default';
+  }
 }

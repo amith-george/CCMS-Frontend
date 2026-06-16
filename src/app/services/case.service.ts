@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PagedResult, CaseStatisticsDto } from '../models/pagination.models';
+import { environment } from '../../environments/environment';
 export interface CaseDocumentDto {
   id: number;
   fileName: string;
@@ -40,8 +41,7 @@ export interface CaseDetailsDto extends CaseDto {
 })
 export class CaseService {
   private http = inject(HttpClient);
-  // Pointing to local backend URL for development
-  private apiUrl = 'http://localhost:5042/api/cases';
+  private apiUrl = `${environment.apiUrl}/cases`;
 
   getCases(page: number = 1, limit: number = 15, filter: string = 'all'): Observable<PagedResult<CaseDto>> {
     return this.http.get<PagedResult<CaseDto>>(`${this.apiUrl}?page=${page}&limit=${limit}&filter=${filter}`);

@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BankCaseDto, BankResponseDto } from '../models/bank.models';
 import { PagedResult, CaseStatisticsDto } from '../models/pagination.models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BankApiService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5042/api/bank';
+  private apiUrl = `${environment.apiUrl}/bank`;
 
   getBankCases(page: number = 1, limit: number = 15, filter: string = 'all'): Observable<PagedResult<BankCaseDto>> {
     return this.http.get<PagedResult<BankCaseDto>>(`${this.apiUrl}/cases?page=${page}&limit=${limit}&filter=${filter}`);

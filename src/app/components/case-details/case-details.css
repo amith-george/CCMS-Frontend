@@ -1,0 +1,151 @@
+.details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 64px;
+}
+
+mat-card-header {
+  padding-bottom: 12px;
+}
+
+mat-card-content {
+  padding-top: 16px !important;
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header-section h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--primary-color);
+  letter-spacing: -0.5px;
+}
+
+.back-btn {
+  margin-right: 8px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card, .docs-card {
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 500;
+  color: var(--text-muted);
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.value {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.remark-box {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: var(--bg-main);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 4px;
+}
+
+.remark-box.system {
+  border-left-color: var(--primary-color);
+  background-color: #e2e8f0;
+}
+
+.remark-box .label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.remark-box p {
+  margin: 0;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: box-shadow 0.2s;
+}
+
+.doc-item:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.doc-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.doc-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.doc-type {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.doc-name {
+  font-weight: 600;
+  color: var(--primary-color);
+  word-break: break-all;
+}
+
+.no-docs {
+  padding: 24px;
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+  color: #666;
+  font-size: 18px;
+}

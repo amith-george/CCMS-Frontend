@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+/* 
+   COURT / BANK PORTAL THEME (Corporate Banking Aesthetic)
+*/
+:root {
+  /* Corporate Banking Colors */
+  --primary-color: #0A2540; /* Deep, secure Navy Blue */
+  --accent-color: #0066FF; /* Vibrant Action Blue */
+  --warn-color: #D93025; /* Professional Error Red */
+
+  /* Backgrounds */
+  --bg-main: #F4F7F9; /* Very subtle cool off-white */
+  --surface-color: #FFFFFF; /* Pure white for cards/surfaces */
+  --text-main: #1C2B33;
+  --text-muted: #5E6A75;
+  --border-color: #E2E8F0;
+
+  /* Material 3 System Variable Overrides */
+  --mat-sys-primary: var(--primary-color);
+  --mat-sys-on-primary: #FFFFFF;
+  --mat-sys-primary-container: var(--primary-color);
+  --mat-sys-on-primary-container: #FFFFFF;
+  
+  --mat-sys-secondary: var(--accent-color);
+  --mat-sys-on-secondary: #FFFFFF;
+  --mat-sys-secondary-container: var(--accent-color);
+  --mat-sys-on-secondary-container: #FFFFFF;
+  
+  --mat-sys-error: var(--warn-color);
+  --mat-sys-on-error: #FFFFFF;
+  
+  --mat-sys-surface: var(--surface-color);
+  --mat-sys-on-surface: var(--text-main);
+  --mat-sys-background: var(--bg-main);
+  --mat-sys-on-background: var(--text-main);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 
+   =================================================
+   BANK PORTAL THEME: "The Financial Ledger"
+   =================================================
+*/
+.bank-theme {
+  --bank-primary: #2F4F4F; /* Dark Slate Gray */
+  --bank-accent: #228B22; /* Emerald / Forest Green */
+  --bank-bg: #F9F6F0; /* Bone White */
+  --bank-text: #1a1a1a;
+
+  /* Override Material Variables */
+  --mdc-theme-primary: var(--bank-primary);
+  --mdc-theme-secondary: var(--bank-accent);
+
+  background-color: var(--bank-bg);
+  color: var(--bank-text);
+  min-height: 100vh;
+  display: flex;
+}

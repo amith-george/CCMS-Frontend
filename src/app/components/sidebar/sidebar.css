@@ -1,0 +1,132 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--primary-color);
+  color: white;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.sidebar-header {
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-profile .avatar {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-profile .avatar mat-icon {
+  color: white;
+}
+
+.user-profile .user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-profile .user-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.user-profile .user-role {
+  font-size: 12px;
+  color: #cccccc;
+}
+
+mat-nav-list a[mat-list-item],
+mat-nav-list a[mat-list-item] [matListItemTitle] {
+  color: white !important;
+  transition: all 0.2s ease;
+}
+
+mat-nav-list a[mat-list-item] {
+  border-radius: 4px !important;
+  margin: 4px 8px !important;
+  width: calc(100% - 16px) !important;
+}
+
+mat-nav-list a[mat-list-item] mat-icon {
+  color: white !important;
+  transition: color 0.2s ease;
+  opacity: 0.8;
+}
+
+mat-nav-list a[mat-list-item]:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+mat-nav-list a[mat-list-item]:hover mat-icon {
+  opacity: 1;
+}
+
+.active-link {
+  background-color: rgba(0, 102, 255, 0.2) !important;
+  color: white !important;
+  font-weight: 600;
+  border-left: 4px solid var(--accent-color);
+}
+
+.active-link mat-icon {
+  color: var(--accent-color) !important;
+}
+
+mat-nav-list {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1;
+  padding-top: 8px !important;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.logout-btn {
+  margin-top: auto !important;
+  cursor: pointer;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+}
+
+.logout-btn [matListItemTitle],
+.logout-btn .logout-icon {
+  color: white !important;
+  opacity: 0.9;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: rgba(217, 48, 37, 0.2) !important;
+}
+
+.logout-btn:hover [matListItemTitle],
+.logout-btn:hover .logout-icon {
+  color: #ff5252 !important;
+  opacity: 1;
+}

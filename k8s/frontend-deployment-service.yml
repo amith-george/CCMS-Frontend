@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ccms-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ccms-frontend
+  template:
+    metadata:
+      labels:
+        app: ccms-frontend
+    spec:
+      containers:
+        - name: ccms-frontend
+          image: amithccmsacr.azurecr.io/ccms-frontend:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ccms-frontend-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: ccms-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

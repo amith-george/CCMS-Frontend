@@ -1,0 +1,103 @@
+<div class="dashboard-container">
+  <div class="header-section">
+    <div class="title-container">
+      <h1>
+        <mat-icon class="title-icon">balance</mat-icon>
+        Court Officer <span class="fw-light">Dashboard</span>
+      </h1>
+      <p class="subtitle">Monitor active cases, bank communications, and freezing orders.</p>
+    </div>
+  </div>
+
+  <div class="stats-and-actions-section">
+    <div class="stats-container">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-label">Total Cases</div>
+          <div class="stat-value">{{ totalCases }}</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-label">Pending Cases</div>
+          <div class="stat-value">{{ pendingCases }}</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-label">Closed Cases</div>
+          <div class="stat-value">{{ closedCases }}</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+
+  </div>
+
+  <div class="filter-section">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-dropdown">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(ngModel)]="selectedFilter" (selectionChange)="applyFilter()">
+        <mat-option value="all">All Cases</mat-option>
+        <mat-option value="0">Pending Cases</mat-option>
+        <mat-option value="1">Account Validated</mat-option>
+        <mat-option value="3">Under Review</mat-option>
+        <mat-option value="closed">Closed Cases</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-card>
+    <mat-table [dataSource]="dataSource">
+
+      <!-- Case Number Column -->
+      <ng-container matColumnDef="caseNumber">
+        <mat-header-cell *matHeaderCellDef> Case Number </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.caseNumber}} </mat-cell>
+      </ng-container>
+
+      <!-- Defendant Name Column -->
+      <ng-container matColumnDef="defendantName">
+        <mat-header-cell *matHeaderCellDef> Defendant Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.defendantName}} </mat-cell>
+      </ng-container>
+
+      <!-- Target Bank Column -->
+      <ng-container matColumnDef="targetBank">
+        <mat-header-cell *matHeaderCellDef> Target Bank </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.targetBank}} </mat-cell>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.createdAt | date:'shortDate'}} </mat-cell>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-chip [color]="getStatusColor(element.status)" highlighted>{{getStatusLabel(element.status)}}</mat-chip>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" title="View Details" [routerLink]="['/court/case', element.id]">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="totalCasesForPagination" [pageSize]="15" hidePageSize (page)="onPageChange()" showFirstLastButtons></mat-paginator>
+  </mat-card>
+</div>

@@ -1,0 +1,42 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <div class="logo-container">
+      <mat-icon class="bank-icon">account_balance</mat-icon>
+      <h2 *ngIf="!isCollapsed">Bank Portal</h2>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+    </button>
+  </div>
+
+  <div class="user-profile" *ngIf="!isCollapsed">
+    <div class="avatar">
+      <mat-icon>person</mat-icon>
+    </div>
+    <div class="user-info">
+      <span class="user-name">Bank Officer</span>
+      <span class="user-role">NeST Digital Bank</span>
+    </div>
+  </div>
+
+  <nav class="nav-menu">
+    <a routerLink="/bank/dashboard" routerLinkActive="active" class="nav-item">
+      <mat-icon>dashboard</mat-icon>
+      <span *ngIf="!isCollapsed">Dashboard</span>
+    </a>
+    
+    <a routerLink="/bank/inbox" routerLinkActive="active" class="nav-item">
+      <mat-icon>inbox</mat-icon>
+      <span *ngIf="!isCollapsed">Case Inbox</span>
+    </a>
+
+    <!-- Add more nav items here as we build them -->
+  </nav>
+
+  <div class="sidebar-footer">
+    <a (click)="logout()" class="nav-item logout-btn">
+      <mat-icon>logout</mat-icon>
+      <span *ngIf="!isCollapsed">Logout</span>
+    </a>
+  </div>
+</div>

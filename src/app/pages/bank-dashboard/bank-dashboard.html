@@ -1,0 +1,100 @@
+<div class="dashboard-wrapper">
+  <!-- Header with inline last updated -->
+  <div class="header-strip">
+    <div class="header-titles">
+      <h1>Bank Officer Dashboard</h1>
+      <p></p>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading case statistics...</p>
+  </div>
+
+  <div class="error-state" *ngIf="errorMessage" style="color: red; padding: 20px; background-color: #fee; border-radius: 8px; margin-bottom: 20px;">
+    <strong>Error:</strong> {{ errorMessage }}
+  </div>
+
+  <div class="content-section" *ngIf="!isLoading && !errorMessage">
+    
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <!-- Card 1 -->
+      <div class="saas-card">
+        <div class="card-header-row">
+          <div class="icon-circle primary-light"><mat-icon class="primary-text">inbox</mat-icon></div>
+          <div class="card-titles">
+            <span class="card-title">Total Cases</span>
+            <span class="card-subtitle">All time</span>
+          </div>
+        </div>
+        <div class="card-value">{{totalCases}}</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="saas-card">
+        <div class="card-header-row">
+          <div class="icon-circle warn-light"><mat-icon class="warn-text">pending_actions</mat-icon></div>
+          <div class="card-titles">
+            <span class="card-title">Awaiting Action</span>
+            <span class="card-subtitle">Requires your response</span>
+          </div>
+        </div>
+        <div class="card-value">{{awaitingAction}}</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="saas-card">
+        <div class="card-header-row">
+          <div class="icon-circle success-light"><mat-icon class="success-text">check</mat-icon></div>
+          <div class="card-titles">
+            <span class="card-title">Completed</span>
+            <span class="card-subtitle">Resolved cases</span>
+          </div>
+        </div>
+        <div class="card-value">{{completed}}</div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="saas-card">
+        <div class="card-header-row">
+          <div class="icon-circle accent-light"><mat-icon class="accent-text">schedule</mat-icon></div>
+          <div class="card-titles">
+            <span class="card-title">Pending Batch</span>
+            <span class="card-subtitle">Awaiting automatic validation</span>
+          </div>
+        </div>
+        <div class="card-value">{{pendingBatch}}</div>
+      </div>
+    </div>
+
+    <!-- Batch Validation Strip -->
+    <div class="saas-panel">
+      <div class="panel-header">
+        <div class="icon-circle settings-light"><mat-icon class="settings-text">settings_suggest</mat-icon></div>
+        <div class="panel-titles">
+          <span class="panel-title">Batch Validation Control Panel</span>
+          <span class="panel-subtitle">Manually trigger the account matching process</span>
+        </div>
+      </div>
+      
+      <div class="panel-bottom-row">
+        <div class="panel-info-items">
+          <div class="info-tag"><mat-icon>schedule</mat-icon> Runs every 15 minutes</div>
+          <div class="info-tag"><mat-icon>folder_open</mat-icon> Cases waiting: {{pendingBatch}}</div>
+          <div class="info-tag">
+            <span class="status-dot" [class.running]="isTriggeringBatch"></span> 
+            Status: {{ isTriggeringBatch ? 'Running...' : 'Idle' }}
+          </div>
+        </div>
+        
+        <button class="saas-btn" (click)="triggerBatchValidation()" [disabled]="isTriggeringBatch || pendingBatch === 0">
+          <mat-icon *ngIf="!isTriggeringBatch">play_arrow</mat-icon>
+          <mat-spinner diameter="18" *ngIf="isTriggeringBatch"></mat-spinner>
+          <span>Trigger Batch Validation</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

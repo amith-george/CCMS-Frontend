@@ -108,7 +108,7 @@ export class BankCaseDetail implements OnInit {
     if (this.caseData.orderType === OrderType.BalanceEnquiry) {
       // Pre-fill with batch found balance, allow user to adjust
       this.responseForm.addControl('finalReportedBalance', this.fb.control(this.caseData.batchFoundBalance, [Validators.required, Validators.min(0)]));
-    } else if (this.caseData.orderType === OrderType.FreezeAccount) {
+    } else if (this.caseData.orderType === OrderType.FreezeAmount) {
       // Empty input required, user must type freeze amount based on PDF
       this.responseForm.addControl('finalFreezeAmount', this.fb.control('', [Validators.required, Validators.min(0)]));
     }
@@ -133,7 +133,7 @@ export class BankCaseDetail implements OnInit {
 
     if (this.caseData.orderType === OrderType.BalanceEnquiry) {
       responseDto.finalReportedBalance = this.responseForm.value.finalReportedBalance;
-    } else if (this.caseData.orderType === OrderType.FreezeAccount) {
+    } else if (this.caseData.orderType === OrderType.FreezeAmount) {
       responseDto.finalFreezeAmount = this.responseForm.value.finalFreezeAmount;
     }
 
@@ -173,7 +173,7 @@ export class BankCaseDetail implements OnInit {
   }
 
   getOrderTypeLabel(type: OrderType): string {
-    return type === OrderType.FreezeAccount ? 'Freeze Account' : 'Balance Enquiry';
+    return type === OrderType.FreezeAmount ? 'Freeze Account' : 'Balance Enquiry';
   }
 
   getStatusLabel(status: CaseStatus): string {

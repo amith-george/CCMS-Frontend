@@ -7,7 +7,7 @@
     <div>
       <h1>Case #{{ caseData.caseNumber }}</h1>
       <mat-chip-set>
-        <mat-chip highlighted [color]="caseData.orderType === OrderType.FreezeAccount ? 'warn' : 'accent'">
+        <mat-chip highlighted [color]="caseData.orderType === OrderType.FreezeAmount ? 'warn' : 'accent'">
           {{ getOrderTypeLabel(caseData.orderType) }}
         </mat-chip>
         <mat-chip highlighted color="primary">{{ getStatusLabel(caseData.status) }}</mat-chip>
@@ -137,7 +137,7 @@
             </div>
 
             <!-- Freeze Account Form -->
-            <div *ngIf="caseData.orderType === OrderType.FreezeAccount">
+            <div *ngIf="caseData.orderType === OrderType.FreezeAmount">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Final Freeze Amount Applied (INR)</mat-label>
                 <input matInput type="number" formControlName="finalFreezeAmount" placeholder="e.g. 25000">

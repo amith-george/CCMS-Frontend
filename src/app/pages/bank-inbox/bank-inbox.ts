@@ -93,7 +93,7 @@ export class BankInbox implements OnInit {
   }
 
   getOrderTypeLabel(type: OrderType): string {
-    return type === OrderType.FreezeAccount ? 'Freeze Account' : 'Balance Enquiry';
+    return type === OrderType.FreezeAmount ? 'Freeze Account' : 'Balance Enquiry';
   }
 
   getStatusLabel(status: CaseStatus): string {

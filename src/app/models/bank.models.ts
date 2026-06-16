@@ -1,5 +1,5 @@
 export enum OrderType {
-  FreezeAccount = 0,
+  FreezeAmount = 0,
   BalanceEnquiry = 1
 }
 

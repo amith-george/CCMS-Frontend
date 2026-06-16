@@ -1,35 +1,47 @@
 /* 
-   =================================================
-   COURT PORTAL THEME: "The Tech Professional"
-   =================================================
-   A clean, highly readable, developer-friendly 
-   aesthetic built for extended screen time.
+   COURT / BANK PORTAL THEME (Corporate Banking Aesthetic)
 */
 :root {
-  /* Graphite - Deep, rich gray */
-  --primary-color: #2D3142; 
-  /* Aubergine - Muted dark purple */
-  --accent-color: #4F5D75; 
-  /* Burnt Orange - For high-priority buttons */
-  --warn-color: #EF8354; 
-  
+  /* Corporate Banking Colors */
+  --primary-color: #0A2540; /* Deep, secure Navy Blue */
+  --accent-color: #0066FF; /* Vibrant Action Blue */
+  --warn-color: #D93025; /* Professional Error Red */
+
   /* Backgrounds */
-  --bg-light: #FFFFFF; /* Stark White */
-  --bg-dark: #1E1E24;  /* Deep Charcoal */
-  --text-main: #333333;
+  --bg-main: #F4F7F9; /* Very subtle cool off-white */
+  --surface-color: #FFFFFF; /* Pure white for cards/surfaces */
+  --text-main: #1C2B33;
+  --text-muted: #5E6A75;
+  --border-color: #E2E8F0;
+
+  /* Material 3 System Variable Overrides */
+  --mat-sys-primary: var(--primary-color);
+  --mat-sys-on-primary: #FFFFFF;
+  --mat-sys-primary-container: var(--primary-color);
+  --mat-sys-on-primary-container: #FFFFFF;
   
-  /* Material Overrides */
-  --mdc-theme-primary: var(--primary-color);
-  --mdc-theme-secondary: var(--accent-color);
+  --mat-sys-secondary: var(--accent-color);
+  --mat-sys-on-secondary: #FFFFFF;
+  --mat-sys-secondary-container: var(--accent-color);
+  --mat-sys-on-secondary-container: #FFFFFF;
+  
+  --mat-sys-error: var(--warn-color);
+  --mat-sys-on-error: #FFFFFF;
+  
+  --mat-sys-surface: var(--surface-color);
+  --mat-sys-on-surface: var(--text-main);
+  --mat-sys-background: var(--bg-main);
+  --mat-sys-on-background: var(--text-main);
 }
 
-html, body { 
-    height: 100%; 
+html, body {
+  height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: var(--bg-light);
+  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--bg-main);
   color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }

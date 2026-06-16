@@ -6,7 +6,7 @@
   <mat-card>
     <mat-card-content>
       <form [formGroup]="caseForm" (ngSubmit)="onSubmit()" class="case-form">
-        
+
         <h3>Defendant Information</h3>
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
@@ -20,7 +20,8 @@
           <mat-form-field appearance="outline" class="half-width">
             <mat-label>Aadhaar Number</mat-label>
             <input matInput formControlName="aadhaarNumber" placeholder="12 digit Aadhaar">
-            <mat-error *ngIf="caseForm.get('aadhaarNumber')?.hasError('pattern')">Must be a valid 12-digit number</mat-error>
+            <mat-error *ngIf="caseForm.get('aadhaarNumber')?.hasError('pattern')">Must be a valid 12-digit
+              number</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="half-width">
@@ -34,14 +35,17 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="half-width">
             <mat-label>Target Bank</mat-label>
-            <input matInput formControlName="targetBank" placeholder="e.g. State Bank of India">
+            <mat-select formControlName="targetBank">
+              <mat-option value="NeST Digital Bank">NeST Digital Bank</mat-option>
+            </mat-select>
             <mat-error *ngIf="caseForm.get('targetBank')?.hasError('required')">Target Bank is required</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="half-width">
             <mat-label>Account Number</mat-label>
             <input matInput formControlName="accountNumber" placeholder="Enter account number">
-            <mat-error *ngIf="caseForm.get('accountNumber')?.hasError('required')">Account Number is required</mat-error>
+            <mat-error *ngIf="caseForm.get('accountNumber')?.hasError('required')">Account Number is
+              required</mat-error>
           </mat-form-field>
         </div>
 
@@ -64,7 +68,7 @@
         <h3>Supporting Documents (Max 5MB, PDF/JPG/PNG)</h3>
         <div class="file-upload-section">
           <div class="upload-box">
-            <label>Court Order *</label>
+            <label>Signed Court Order *</label>
             <input type="file" (change)="onFileChange($event, 'courtOrder')" accept=".pdf,.jpg,.jpeg,.png">
             <span class="file-name" *ngIf="files['courtOrder']">{{ files['courtOrder']?.name }}</span>
           </div>

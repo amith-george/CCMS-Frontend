@@ -1,7 +1,15 @@
 <div class="app-wrapper">
   @if (!isLoginRoute) {
+    @if (isMobile) {
+      <div class="mobile-header">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h2>CCMS Portal</h2>
+      </div>
+    }
     <mat-sidenav-container class="sidenav-container">
-      <mat-sidenav mode="side" opened class="sidenav">
+      <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" class="sidenav">
         <app-sidebar></app-sidebar>
       </mat-sidenav>
       <mat-sidenav-content class="content-area">

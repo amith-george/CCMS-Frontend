@@ -1,0 +1,74 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Beautiful, modern gradient background using the Tech Professional theme colors */
+  background: linear-gradient(135deg, #2D3142 0%, #4F5D75 100%);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 3rem 2rem;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+mat-card-header {
+  margin-bottom: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-card-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2D3142;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+mat-card-subtitle {
+  color: #4F5D75;
+  font-size: 15px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.actions {
+  margin-top: 1rem;
+}
+
+.login-btn {
+  height: 52px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  background-color: #EF8354;
+  color: white;
+  border-radius: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-btn:not([disabled]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 131, 84, 0.4);
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #fde0dc;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+}

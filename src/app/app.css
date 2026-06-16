@@ -32,3 +32,8 @@
   font-size: 20px;
   font-weight: 500;
 }
+
+.full-screen-area {
+  padding: 0;
+  height: 100vh;
+}

@@ -45,3 +45,24 @@ body {
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
 }
+
+/* 
+   =================================================
+   BANK PORTAL THEME: "The Financial Ledger"
+   =================================================
+*/
+.bank-theme {
+  --bank-primary: #2F4F4F; /* Dark Slate Gray */
+  --bank-accent: #228B22; /* Emerald / Forest Green */
+  --bank-bg: #F9F6F0; /* Bone White */
+  --bank-text: #1a1a1a;
+
+  /* Override Material Variables */
+  --mdc-theme-primary: var(--bank-primary);
+  --mdc-theme-secondary: var(--bank-accent);
+
+  background-color: var(--bank-bg);
+  color: var(--bank-text);
+  min-height: 100vh;
+  display: flex;
+}

@@ -50,10 +50,32 @@
             <span class="label">Order Type:</span>
             <span class="value">{{ getOrderTypeLabel(caseData.orderType) }}</span>
           </div>
-          <div class="info-row"
-            *ngIf="caseData.requestedFreezeAmount !== null && caseData.requestedFreezeAmount !== undefined">
+          <div class="info-row" *ngIf="caseData.requestedFreezeAmount !== null && caseData.requestedFreezeAmount !== undefined">
             <span class="label">Requested Amount:</span>
             <span class="value">{{ caseData.requestedFreezeAmount | currency:'INR' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card" *ngIf="caseData.matchedAccountNumber">
+        <mat-card-header>
+          <mat-card-title>Batch Validation Result</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="info-row">
+            <span class="label">Matched Account:</span>
+            <span class="value">{{ caseData.matchedAccountNumber }}</span>
+          </div>
+          <div class="info-row" *ngIf="caseData.batchAccountStatus">
+            <span class="label">Account Status:</span>
+            <span class="value" [class.success-text]="caseData.batchAccountStatus === 'Active' || caseData.batchAccountStatus === 'ACTIVE'" [class.warn-text]="caseData.batchAccountStatus !== 'Active' && caseData.batchAccountStatus !== 'ACTIVE'">
+              {{ caseData.batchAccountStatus }}
+            </span>
+          </div>
+          <div class="info-row" *ngIf="caseData.batchFoundBalance !== null && caseData.batchFoundBalance !== undefined">
+            <span class="label">Found Balance:</span>
+            <span class="value success-text">{{ caseData.batchFoundBalance | currency:'INR' }}</span>
           </div>
         </mat-card-content>
       </mat-card>
@@ -96,8 +118,7 @@
                 <span class="doc-name">{{ doc.fileName }}</span>
               </div>
             </div>
-            <button mat-icon-button color="accent" (click)="downloadDocument(doc.id, doc.fileName)"
-              title="Download Document">
+            <button mat-icon-button color="accent" (click)="downloadDocument(doc.id, doc.fileName)" title="Download Document">
               <mat-icon>download</mat-icon>
             </button>
           </div>

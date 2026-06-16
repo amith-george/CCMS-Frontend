@@ -1,5 +1,5 @@
 <div class="app-wrapper">
-  @if (!isLoginRoute) {
+  @if (!isFullScreenRoute) {
     @if (isMobile) {
       <div class="mobile-header">
         <button mat-icon-button (click)="sidenav.toggle()">
@@ -17,7 +17,7 @@
       </mat-sidenav-content>
     </mat-sidenav-container>
   } @else {
-    <main class="login-area">
+    <main class="full-screen-area">
       <router-outlet></router-outlet>
     </main>
   }

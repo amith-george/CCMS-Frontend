@@ -24,6 +24,11 @@ export interface CaseDto {
   resolvedAt?: string;
   bankRemarks?: string;
   systemRemarks?: string;
+  matchedAccountNumber?: string;
+  batchAccountStatus?: string;
+  batchFoundBalance?: number;
+  finalFreezeAmount?: number;
+  finalReportedBalance?: number;
 }
 
 export interface CaseDetailsDto extends CaseDto {

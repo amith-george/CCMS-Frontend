@@ -1,0 +1,133 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--bank-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+  overflow-x: hidden;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  height: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.logo-container h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.bank-icon {
+  color: var(--bank-accent);
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.toggle-btn:hover {
+  color: white;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.avatar {
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.user-name {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.user-role {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.nav-menu {
+  flex-grow: 1;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background-color: rgba(255,255,255,0.05);
+  color: white;
+}
+
+.nav-item.active {
+  background-color: var(--bank-accent);
+  color: white;
+  border-left: 4px solid #fff;
+  padding-left: 16px;
+}
+
+.sidebar-footer {
+  padding: 20px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.logout-btn:hover {
+  background-color: rgba(239, 131, 84, 0.2); /* Warn color with opacity */
+  color: #EF8354;
+}

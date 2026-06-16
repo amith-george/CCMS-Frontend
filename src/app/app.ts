@@ -25,8 +25,8 @@ export class App implements OnInit {
     this.isMobile = window.innerWidth < 768;
   }
 
-  get isLoginRoute(): boolean {
-    // Hide the sidebar if the URL contains '/login'
-    return this.router.url.includes('/login');
+  get isFullScreenRoute(): boolean {
+    // Hide the Court sidebar if the URL contains '/login' or '/bank'
+    return this.router.url.includes('/login') || this.router.url.includes('/bank');
   }
 }

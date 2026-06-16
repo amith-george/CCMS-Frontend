@@ -1,0 +1,101 @@
+<div class="dashboard-container">
+  <div class="header-section">
+    <h1>Bank Officer Dashboard</h1>
+    <p>Overview of all cases assigned to your bank.</p>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading case statistics...</p>
+  </div>
+
+  <div class="content-section" *ngIf="!isLoading">
+    
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-header>
+          <div mat-card-avatar class="stat-icon-bg primary">
+            <mat-icon>inbox</mat-icon>
+          </div>
+          <mat-card-title>Total Cases</mat-card-title>
+          <mat-card-subtitle>All time</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <h2 class="stat-value">{{totalCases}}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-header>
+          <div mat-card-avatar class="stat-icon-bg warn">
+            <mat-icon>pending_actions</mat-icon>
+          </div>
+          <mat-card-title>Awaiting Action</mat-card-title>
+          <mat-card-subtitle>Requires your response</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <h2 class="stat-value">{{awaitingAction}}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-header>
+          <div mat-card-avatar class="stat-icon-bg success">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <mat-card-title>Completed</mat-card-title>
+          <mat-card-subtitle>Resolved cases</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <h2 class="stat-value">{{completed}}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-header>
+          <div mat-card-avatar class="stat-icon-bg accent">
+            <mat-icon>schedule</mat-icon>
+          </div>
+          <mat-card-title>Pending Batch</mat-card-title>
+          <mat-card-subtitle>Awaiting automatic validation</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <h2 class="stat-value">{{pendingBatch}}</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Batch Control Panel -->
+    <div class="control-panel-section">
+      <mat-card class="control-card">
+        <mat-card-header>
+          <div mat-card-avatar class="stat-icon-bg accent">
+            <mat-icon>settings_suggest</mat-icon>
+          </div>
+          <mat-card-title>Batch Validation Control Panel</mat-card-title>
+          <mat-card-subtitle>Manually trigger the account matching process</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="control-content">
+          <p>
+            The batch validation job runs automatically every 15 minutes to match new cases against bank customer records. 
+            You can manually trigger it here if you have <strong>{{pendingBatch}}</strong> cases waiting.
+          </p>
+          <div class="last-run-info" *ngIf="lastRunTime">
+            <mat-icon>info</mat-icon> Last manual run: {{ lastRunTime | date:'medium' }}
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-raised-button color="accent" class="trigger-btn" 
+                  (click)="triggerBatchValidation()" 
+                  [disabled]="isTriggeringBatch || pendingBatch === 0">
+            <mat-icon *ngIf="!isTriggeringBatch">play_arrow</mat-icon>
+            <mat-spinner diameter="20" *ngIf="isTriggeringBatch"></mat-spinner>
+            <span style="margin-left: 8px;">Trigger Batch Now</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+  </div>
+</div>

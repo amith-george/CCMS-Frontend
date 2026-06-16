@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -47,12 +47,15 @@ export class BankCaseDetail implements OnInit {
   caseData: BankCaseDto | null = null;
   isLoading = true;
   isSubmitting = false;
+  errorMessage = '';
 
   responseForm!: FormGroup;
 
   // Enums for template
   OrderType = OrderType;
   CaseStatus = CaseStatus;
+
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -64,16 +67,33 @@ export class BankCaseDetail implements OnInit {
 
   loadCaseDetails(): void {
     this.isLoading = true;
+    this.errorMessage = '';
     this.bankApiService.getBankCaseById(this.caseId).subscribe({
-      next: (data) => {
-        this.caseData = data;
-        this.initForm();
-        this.isLoading = false;
+      next: (data: any) => {
+        try {
+            console.log('Case details response:', data);
+            
+            // Handle unwrapping if the backend wraps the object
+            let actualData = data;
+            if (data && data.data) actualData = data.data;
+            else if (data && data.$values && data.$values.length > 0) actualData = data.$values[0];
+
+            this.caseData = actualData;
+            this.initForm();
+        } catch (e: any) {
+            console.error('Error processing case details:', e);
+            this.errorMessage = "Error processing data: " + (e.message || e);
+        } finally {
+            this.isLoading = false;
+            this.cdr.detectChanges();
+        }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error fetching case details', err);
+        this.errorMessage = "Failed to load case details: " + (err.message || err.statusText || 'Unknown error');
         this.snackBar.open('Failed to load case details', 'Close', { duration: 3000 });
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -118,22 +138,38 @@ export class BankCaseDetail implements OnInit {
     }
 
     this.bankApiService.submitBankResponse(this.caseId, responseDto).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.isSubmitting = false;
         this.snackBar.open('Response submitted successfully!', 'Close', { duration: 3000 });
         this.router.navigate(['/bank/inbox']);
       },
-      error: (err) => {
+      error: (err: any) => {
         this.isSubmitting = false;
         const errMsg = err.error?.error || 'Failed to submit response';
         this.snackBar.open(errMsg, 'Close', { duration: 5000 });
+        this.cdr.detectChanges();
       }
     });
   }
 
   downloadDocument(): void {
-    // Usually calls the API to download. For now just show a message.
-    this.snackBar.open('Document download started...', 'Close', { duration: 2000 });
+    if (!this.caseId) return;
+    
+    this.snackBar.open('Downloading document...', 'Close', { duration: 2000 });
+    this.bankApiService.downloadCourtOrder(this.caseId).subscribe({
+      next: (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `Court_Order_${this.caseData?.caseNumber || this.caseId}.pdf`;
+        anchor.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err: any) => {
+        console.error('Error downloading document:', err);
+        this.snackBar.open('Failed to download document. It may not exist.', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   getOrderTypeLabel(type: OrderType): string {

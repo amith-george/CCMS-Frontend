@@ -9,7 +9,11 @@
     <p>Loading cases...</p>
   </div>
 
-  <div *ngIf="!isLoading" class="tabs-wrapper">
+  <div class="error-state" *ngIf="errorMessage" style="color: red; padding: 20px; background-color: #fee; border-radius: 8px; margin-bottom: 20px;">
+    <strong>Error:</strong> {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage" class="tabs-wrapper">
     <mat-tab-group animationDuration="0ms" color="accent" backgroundColor="primary">
       
       <!-- TAB 1: Awaiting Action -->

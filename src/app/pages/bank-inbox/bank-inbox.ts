@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -34,6 +34,7 @@ export class BankInbox implements OnInit {
   private snackBar = inject(MatSnackBar);
 
   isLoading = true;
+  errorMessage = '';
 
   // Categories of cases
   awaitingActionCases: BankCaseDto[] = [];
@@ -48,27 +49,45 @@ export class BankInbox implements OnInit {
   OrderType = OrderType;
   CaseStatus = CaseStatus;
 
+  private cdr = inject(ChangeDetectorRef);
+
   ngOnInit(): void {
     this.loadCases();
   }
 
   loadCases(): void {
     this.isLoading = true;
+    this.errorMessage = '';
     this.bankApiService.getBankCases().subscribe({
-      next: (cases) => {
-        this.awaitingActionCases = cases.filter(c => c.status === CaseStatus.AccountValidated);
-        this.pendingBatchCases = cases.filter(c => c.status === CaseStatus.Pending);
-        this.autoResolvedCases = cases.filter(c => c.status === CaseStatus.AccountNotFound);
-        this.completedCases = cases.filter(c => 
-          c.status === CaseStatus.FreezeApplied || 
-          c.status === CaseStatus.BalanceProvided
-        );
-        this.isLoading = false;
+      next: (response: any) => {
+        try {
+            console.log("Bank inbox cases response:", response);
+            let cases: BankCaseDto[] = [];
+            if (Array.isArray(response)) cases = response;
+            else if (response && Array.isArray(response.data)) cases = response.data;
+            else if (response && Array.isArray(response.$values)) cases = response.$values;
+
+            this.awaitingActionCases = cases.filter((c: BankCaseDto) => c.status === CaseStatus.AccountValidated);
+            this.pendingBatchCases = cases.filter((c: BankCaseDto) => c.status === CaseStatus.Pending);
+            this.autoResolvedCases = cases.filter((c: BankCaseDto) => c.status === CaseStatus.AccountNotFound);
+            this.completedCases = cases.filter((c: BankCaseDto) => 
+              c.status === CaseStatus.FreezeApplied || 
+              c.status === CaseStatus.BalanceProvided
+            );
+        } catch (e: any) {
+            console.error("Error processing cases:", e);
+            this.errorMessage = "Error processing data: " + (e.message || e);
+        } finally {
+            this.isLoading = false;
+            this.cdr.detectChanges();
+        }
       },
-      error: (err) => {
-        console.error('Error loading cases', err);
+      error: (err: any) => {
+        console.error('Error loading cases:', err);
+        this.errorMessage = "Failed to load cases: " + (err.message || err.statusText || 'Unknown error');
         this.snackBar.open('Failed to load cases', 'Close', { duration: 3000 });
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }

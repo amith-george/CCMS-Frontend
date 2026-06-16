@@ -20,7 +20,11 @@
     <p>Loading case details...</p>
   </div>
 
-  <div class="content-grid" *ngIf="caseData && !isLoading">
+  <div class="error-state" *ngIf="errorMessage" style="color: red; padding: 20px; background-color: #fee; border-radius: 8px; margin-bottom: 20px;">
+    <strong>Error:</strong> {{ errorMessage }}
+  </div>
+
+  <div class="content-grid" *ngIf="caseData && !isLoading && !errorMessage">
     
     <!-- Left Column: Case Information -->
     <div class="info-column">
@@ -69,6 +73,13 @@
             <span class="value fw-bold">{{ maskData(caseData.matchedAccountNumber) }}</span>
           </div>
           <mat-divider></mat-divider>
+          <div class="data-row" *ngIf="caseData.batchAccountStatus">
+            <span class="label">Account Status</span>
+            <span class="value fw-bold" [class.success-text]="caseData.batchAccountStatus === 'Active' || caseData.batchAccountStatus === 'ACTIVE'" [class.warn-text]="caseData.batchAccountStatus !== 'Active' && caseData.batchAccountStatus !== 'ACTIVE'">
+              {{ caseData.batchAccountStatus }}
+            </span>
+          </div>
+          <mat-divider *ngIf="caseData.batchAccountStatus"></mat-divider>
           <div class="data-row">
             <span class="label">Found Balance</span>
             <span class="value success-text fw-bold">{{ caseData.batchFoundBalance | currency:'INR' }}</span>
@@ -155,12 +166,12 @@
 
       <!-- Completed State View -->
       <mat-card class="action-card completed" *ngIf="caseData.status === CaseStatus.FreezeApplied || caseData.status === CaseStatus.BalanceProvided">
-        <mat-card-header>
-          <mat-icon class="success-text">check_circle</mat-icon>
-          <mat-card-title>Response Already Submitted</mat-card-title>
+        <mat-card-header style="display: flex; align-items: center; margin-bottom: 10px;">
+          <mat-icon class="success-text" style="margin-right: 15px; transform: scale(1.2);">check_circle</mat-icon>
+          <mat-card-title style="margin-bottom: 0;">Response Already Submitted</mat-card-title>
         </mat-card-header>
-        <mat-card-content>
-          <p class="help-text">This case has been resolved and the response was sent to the Court.</p>
+        <mat-card-content style="padding-top: 10px;">
+          <p class="help-text" style="margin-top: 0;">This case has been resolved and the response was sent to the Court.</p>
           <div class="data-row">
             <span class="label">Action Taken</span>
             <span class="value fw-bold">{{ getStatusLabel(caseData.status) }}</span>

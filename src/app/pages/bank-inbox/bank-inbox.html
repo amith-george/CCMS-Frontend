@@ -99,7 +99,7 @@
               <th mat-header-cell *matHeaderCellDef> Resolution </th>
               <td mat-cell *matCellDef="let caseItem">
                 <mat-chip-set>
-                  <mat-chip color="primary" highlighted>{{getStatusLabel(caseItem.status)}}</mat-chip>
+                  <mat-chip [ngClass]="getStatusColorClass(caseItem.status)">{{getStatusLabel(caseItem.status)}}</mat-chip>
                 </mat-chip-set>
               </td>
             </ng-container>
@@ -129,8 +129,8 @@
       <!-- TAB 3: Auto-Resolved -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="tab-icon">auto_awesome</mat-icon>
-          Auto-Resolved ({{ autoResolvedCases.length }})
+          <mat-icon class="tab-icon">do_not_disturb_on</mat-icon>
+          Closed ({{ autoResolvedCases.length }})
         </ng-template>
         <div class="tab-content">
           <p class="tab-desc">Cases where the system could not find a matching account in bank records. No action required.</p>
@@ -152,8 +152,12 @@
             </ng-container>
 
             <ng-container matColumnDef="createdAt">
-              <th mat-header-cell *matHeaderCellDef> Processed On </th>
-              <td mat-cell *matCellDef="let caseItem"> {{caseItem.resolvedAt | date:'short'}} </td>
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let caseItem"> 
+                <mat-chip-set>
+                  <mat-chip [ngClass]="getStatusColorClass('AccountNotFound')">Account not found</mat-chip>
+                </mat-chip-set>
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="actions">
@@ -168,7 +172,7 @@
           </table>
 
           <div class="empty-state" *ngIf="autoResolvedCases.length === 0">
-            <p>No auto-resolved cases found.</p>
+            <p>No closed cases found.</p>
           </div>
         </div>
       </mat-tab>

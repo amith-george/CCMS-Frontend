@@ -1,0 +1,34 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <div class="logo-container" *ngIf="!isCollapsed">
+      <span class="logo-icon material-symbols-outlined">account_balance</span>
+      <h2 class="logo-text">Financial Ledger</h2>
+    </div>
+    <div class="logo-container collapsed-logo" *ngIf="isCollapsed">
+      <span class="logo-icon material-symbols-outlined">account_balance</span>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      <span class="material-symbols-outlined" *ngIf="!isCollapsed">chevron_left</span>
+      <span class="material-symbols-outlined" *ngIf="isCollapsed">chevron_right</span>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a routerLink="/bank/dashboard" routerLinkActive="active" class="nav-item">
+      <span class="material-symbols-outlined nav-icon">dashboard</span>
+      <span class="nav-text" *ngIf="!isCollapsed">Dashboard</span>
+    </a>
+    
+    <a routerLink="/bank/inbox" routerLinkActive="active" class="nav-item">
+      <span class="material-symbols-outlined nav-icon">inbox</span>
+      <span class="nav-text" *ngIf="!isCollapsed">Case Inbox</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a routerLink="/login" class="nav-item logout-btn">
+      <span class="material-symbols-outlined nav-icon">logout</span>
+      <span class="nav-text" *ngIf="!isCollapsed">Logout</span>
+    </a>
+  </div>
+</div>

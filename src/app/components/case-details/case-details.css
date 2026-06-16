@@ -1,6 +1,15 @@
 .details-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 64px;
+}
+
+mat-card-header {
+  padding-bottom: 12px;
+}
+
+mat-card-content {
+  padding-top: 16px !important;
 }
 
 .header-section {

@@ -32,12 +32,6 @@
         </mat-card-content>
       </mat-card>
     </div>
-
-    <div class="action-buttons">
-      <button mat-raised-button color="primary" routerLink="/court/new-case">
-        <mat-icon>add</mat-icon> New Case
-      </button>
-    </div>
   </div>
 
   <div class="filter-section">
@@ -55,7 +49,7 @@
 
   <mat-card>
     <mat-table [dataSource]="dataSource">
-      
+
       <!-- Case Number Column -->
       <ng-container matColumnDef="caseNumber">
         <mat-header-cell *matHeaderCellDef> Case Number </mat-header-cell>
@@ -83,7 +77,7 @@
       <!-- Status Column -->
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-        <mat-cell *matCellDef="let element"> 
+        <mat-cell *matCellDef="let element">
           <mat-chip [color]="getStatusColor(element.status)" highlighted>{{getStatusLabel(element.status)}}</mat-chip>
         </mat-cell>
       </ng-container>

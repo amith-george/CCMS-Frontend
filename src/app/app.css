@@ -17,3 +17,18 @@
 .content-area {
   padding: 24px;
 }
+
+.mobile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.mobile-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+}

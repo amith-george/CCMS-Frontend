@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BankApiService } from './bank-api.service';
 import { BankResponseDto } from '../models/bank.models';
+import { environment } from '../../environments/environment';
 
 describe('BankApiService', () => {
   let service: BankApiService;
@@ -35,7 +36,7 @@ describe('BankApiService', () => {
       expect(response.message).toBe('Success');
     });
 
-    const req = httpMock.expectOne('http://localhost:5042/api/bank/cases/1/response');
+    const req = httpMock.expectOne(`${environment.apiUrl}/bank/cases/1/response`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockResponseDto);
     req.flush({ message: 'Success' });
@@ -46,7 +47,7 @@ describe('BankApiService', () => {
       expect(response.count).toBe(5);
     });
 
-    const req = httpMock.expectOne('http://localhost:5042/api/bank/batch/trigger');
+    const req = httpMock.expectOne(`${environment.apiUrl}/bank/batch/trigger`);
     expect(req.request.method).toBe('POST');
     req.flush({ message: 'Completed', count: 5 });
   });

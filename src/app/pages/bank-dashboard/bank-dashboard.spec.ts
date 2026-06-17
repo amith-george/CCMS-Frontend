@@ -16,7 +16,8 @@ describe('BankDashboard', () => {
 
   beforeEach(async () => {
     mockBankApiService = {
-      getBankCases: vi.fn().mockReturnValue(of(mockBankCases))
+      getBankCases: vi.fn().mockReturnValue(of({ data: mockBankCases, totalCount: 1 })),
+      getBankStatistics: vi.fn().mockReturnValue(of({ totalCases: 5, awaitingAction: 2, completed: 1, autoResolved: 1, pendingBatch: 1 }))
     };
 
     await TestBed.configureTestingModule({
@@ -35,9 +36,9 @@ describe('BankDashboard', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load bank cases on init and compute statistics', () => {
-    expect(mockBankApiService.getBankCases).toHaveBeenCalled();
-    expect(component.totalCases).toBe(1);
-    expect(component.pendingBatch).toBe(1); // Status 'Pending' = 0
+  it('should load bank statistics on init', () => {
+    expect(mockBankApiService.getBankStatistics).toHaveBeenCalled();
+    expect(component.totalCases).toBe(5);
+    expect(component.pendingBatch).toBe(1);
   });
 });

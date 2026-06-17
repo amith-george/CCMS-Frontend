@@ -38,7 +38,7 @@ describe('CaseService', () => {
 
     const req = httpMock.expectOne(`${environment.apiUrl}/cases?page=1&limit=15&filter=all`);
     expect(req.request.method).toBe('GET');
-    req.flush({ items: mockCases, totalCount: 1, pageNumber: 1, pageSize: 15, totalPages: 1 });
+    req.flush({ data: mockCases, totalCount: 1, page: 1, limit: 15 });
   });
 
   it('should create a case using FormData', () => {

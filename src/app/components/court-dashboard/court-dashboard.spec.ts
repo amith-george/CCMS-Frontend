@@ -18,7 +18,8 @@ describe('CourtDashboard', () => {
 
   beforeEach(async () => {
     mockCaseService = {
-      getCases: vi.fn().mockReturnValue(of(mockCases))
+      getCases: vi.fn().mockReturnValue(of({ data: mockCases, totalCount: 2 })),
+      getStatistics: vi.fn().mockReturnValue(of({ totalCases: 2, pendingBatch: 0, completed: 0, autoResolved: 0 }))
     };
 
     await TestBed.configureTestingModule({

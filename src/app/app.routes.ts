@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
-import { CourtDashboard } from './components/court-dashboard/court-dashboard';
-import { CaseSubmission } from './components/case-submission/case-submission';
-import { CaseDetails } from './components/case-details/case-details';
+import { CourtDashboard } from './pages/court-dashboard/court-dashboard';
+import { CaseSubmission } from './pages/case-submission/case-submission';
+import { CaseDetails } from './pages/case-details/case-details';
 import { BankLayout } from './components/bank-layout/bank-layout';
 import { BankDashboard } from './pages/bank-dashboard/bank-dashboard';
 import { BankInbox } from './pages/bank-inbox/bank-inbox';
